@@ -1,0 +1,155 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 720px;
+                 background-color: #282424;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "green", "font": {"color": "white"}, "id": "CSCA08H3", "label": "CSCA08H3", "shape": "dot"}, {"color": "green", "font": {"color": "white"}, "id": "CSCA20H3", "label": "CSCA20H3", "shape": "dot"}, {"color": "green", "font": {"color": "white"}, "id": "CSCA48H3", "label": "CSCA48H3", "shape": "dot"}, {"color": "green", "font": {"color": "white"}, "id": "CSCA67H3", "label": "CSCA67H3", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": "CSCB07H3", "label": "CSCB07H3", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": "CSCB09H3", "label": "CSCB09H3", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": "CSCB20H3", "label": "CSCB20H3", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": "CSCB36H3", "label": "CSCB36H3", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": "CSCB58H3", "label": "CSCB58H3", "shape": "dot"}, {"color": "yellow", "font": {"color": "white"}, "id": "CSCB63H3", "label": "CSCB63H3", "shape": "dot"}, {"color": "orange", "font": {"color": "white"}, "id": "CSCC01H3", "label": "CSCC01H3", "shape": "dot"}, {"color": "orange", "font": {"color": "white"}, "id": "CSCC09H3", "label": "CSCC09H3", "shape": "dot"}, {"color": "orange", "font": {"color": "white"}, "id": "CSCC10H3", "label": "CSCC10H3", "shape": "dot"}, {"color": "orange", "font": {"color": "white"}, "id": "CSCC11H3", "label": "CSCC11H3", "shape": "dot"}, {"color": "orange", "font": {"color": "white"}, "id": "CSCC24H3", "label": "CSCC24H3", "shape": "dot"}, {"color": "orange", "font": {"color": "white"}, "id": "CSCC37H3", "label": "CSCC37H3", "shape": "dot"}, {"color": "orange", "font": {"color": "white"}, "id": "CSCC43H3", "label": "CSCC43H3", "shape": "dot"}, {"color": "orange", "font": {"color": "white"}, "id": "CSCC46H3", "label": "CSCC46H3", "shape": "dot"}, {"color": "orange", "font": {"color": "white"}, "id": "CSCC63H3", "label": "CSCC63H3", "shape": "dot"}, {"color": "orange", "font": {"color": "white"}, "id": "CSCC69H3", "label": "CSCC69H3", "shape": "dot"}, {"color": "orange", "font": {"color": "white"}, "id": "CSCC73H3", "label": "CSCC73H3", "shape": "dot"}, {"color": "orange", "font": {"color": "white"}, "id": "CSCC85H3", "label": "CSCC85H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD01H3", "label": "CSCD01H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD03H3", "label": "CSCD03H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD18H3", "label": "CSCD18H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD25H3", "label": "CSCD25H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD27H3", "label": "CSCD27H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD37H3", "label": "CSCD37H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD43H3", "label": "CSCD43H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD54H3", "label": "CSCD54H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD58H3", "label": "CSCD58H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD70H3", "label": "CSCD70H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD71H3", "label": "CSCD71H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD72H3", "label": "CSCD72H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD84H3", "label": "CSCD84H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD90H3", "label": "CSCD90H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD92H3", "label": "CSCD92H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD94H3", "label": "CSCD94H3", "shape": "dot"}, {"color": "red", "font": {"color": "white"}, "id": "CSCD95H3", "label": "CSCD95H3", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "PHYB57H3", "label": "PHYB57H3", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "MATB24H3", "label": "MATB24H3", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "MATB41H3", "label": "MATB41H3", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "STAB52H3", "label": "STAB52H3", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "MATA22H3", "label": "MATA22H3", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "MATA36H3", "label": "MATA36H3", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "MATA37H3", "label": "MATA37H3", "shape": "dot"}, {"color": "#97c2fc", "font": {"color": "white"}, "id": "MATA23H3", "label": "MATA23H3", "shape": "dot"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "CSCA08H3", "to": "CSCA48H3"}, {"arrows": "to", "from": "CSCA48H3", "to": "CSCB07H3"}, {"arrows": "to", "from": "CSCA48H3", "to": "CSCB09H3"}, {"arrows": "to", "from": "CSCA48H3", "to": "CSCB36H3"}, {"arrows": "to", "from": "CSCA67H3", "to": "CSCB36H3"}, {"arrows": "to", "from": "CSCA48H3", "to": "CSCB58H3"}, {"arrows": "to", "from": "PHYB57H3", "to": "CSCB58H3"}, {"arrows": "to", "from": "CSCB36H3", "to": "CSCB63H3"}, {"arrows": "to", "from": "CSCB07H3", "to": "CSCC01H3"}, {"arrows": "to", "from": "CSCB09H3", "to": "CSCC01H3"}, {"arrows": "to", "from": "CSCB09H3", "to": "CSCC09H3"}, {"arrows": "to", "from": "CSCC43H3", "to": "CSCC09H3"}, {"arrows": "to", "from": "CSCB07H3", "to": "CSCC10H3"}, {"arrows": "to", "from": "MATB24H3", "to": "CSCC11H3"}, {"arrows": "to", "from": "MATB41H3", "to": "CSCC11H3"}, {"arrows": "to", "from": "STAB52H3", "to": "CSCC11H3"}, {"arrows": "to", "from": "CSCB07H3", "to": "CSCC24H3"}, {"arrows": "to", "from": "CSCB09H3", "to": "CSCC24H3"}, {"arrows": "to", "from": "MATA22H3", "to": "CSCC37H3"}, {"arrows": "to", "from": "MATA36H3", "to": "CSCC37H3"}, {"arrows": "to", "from": "MATA37H3", "to": "CSCC37H3"}, {"arrows": "to", "from": "CSCB09H3", "to": "CSCC43H3"}, {"arrows": "to", "from": "CSCB63H3", "to": "CSCC43H3"}, {"arrows": "to", "from": "CSCB63H3", "to": "CSCC46H3"}, {"arrows": "to", "from": "STAB52H3", "to": "CSCC46H3"}, {"arrows": "to", "from": "MATA22H3", "to": "CSCC46H3"}, {"arrows": "to", "from": "MATA23H3", "to": "CSCC46H3"}, {"arrows": "to", "from": "CSCB36H3", "to": "CSCC63H3"}, {"arrows": "to", "from": "CSCB63H3", "to": "CSCC63H3"}, {"arrows": "to", "from": "CSCB07H3", "to": "CSCC69H3"}, {"arrows": "to", "from": "CSCB09H3", "to": "CSCC69H3"}, {"arrows": "to", "from": "CSCB58H3", "to": "CSCC69H3"}, {"arrows": "to", "from": "CSCB63H3", "to": "CSCC73H3"}, {"arrows": "to", "from": "STAB52H3", "to": "CSCC73H3"}, {"arrows": "to", "from": "CSCB58H3", "to": "CSCC85H3"}, {"arrows": "to", "from": "CSCB09H3", "to": "CSCC85H3"}, {"arrows": "to", "from": "CSCC01H3", "to": "CSCD01H3"}, {"arrows": "to", "from": "MATB24H3", "to": "CSCD18H3"}, {"arrows": "to", "from": "MATB41H3", "to": "CSCD18H3"}, {"arrows": "to", "from": "CSCB09H3", "to": "CSCD18H3"}, {"arrows": "to", "from": "CSCC37H3", "to": "CSCD18H3"}, {"arrows": "to", "from": "CSCB63H3", "to": "CSCD25H3"}, {"arrows": "to", "from": "CSCC11H3", "to": "CSCD25H3"}, {"arrows": "to", "from": "CSCB09H3", "to": "CSCD27H3"}, {"arrows": "to", "from": "CSCB36H3", "to": "CSCD27H3"}, {"arrows": "to", "from": "CSCB58H3", "to": "CSCD27H3"}, {"arrows": "to", "from": "CSCC37H3", "to": "CSCD37H3"}, {"arrows": "to", "from": "MATB24H3", "to": "CSCD37H3"}, {"arrows": "to", "from": "MATB41H3", "to": "CSCD37H3"}, {"arrows": "to", "from": "CSCC43H3", "to": "CSCD43H3"}, {"arrows": "to", "from": "CSCC69H3", "to": "CSCD43H3"}, {"arrows": "to", "from": "CSCC73H3", "to": "CSCD43H3"}, {"arrows": "to", "from": "CSCB58H3", "to": "CSCD58H3"}, {"arrows": "to", "from": "CSCB63H3", "to": "CSCD58H3"}, {"arrows": "to", "from": "STAB52H3", "to": "CSCD58H3"}, {"arrows": "to", "from": "CSCB63H3", "to": "CSCD70H3"}, {"arrows": "to", "from": "CSCC69H3", "to": "CSCD70H3"}, {"arrows": "to", "from": "STAB52H3", "to": "CSCD84H3"}, {"arrows": "to", "from": "CSCB63H3", "to": "CSCD84H3"}, {"arrows": "to", "from": "CSCD94H3", "to": "CSCD95H3"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
